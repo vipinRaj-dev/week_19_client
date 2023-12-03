@@ -30,15 +30,7 @@ const sliceUser = createSlice({
     initialState,
     reducers: {
 
-        // addDetails: (state, action) => {
-        //     const { _id, firstname, lastname, email, password, picturePath } = action.payload;
-        //     state.userId = _id;
-        //     state.firstname = firstname;
-        //     state.lastname = lastname;
-        //     state.email = email;
-        //     state.password = password;
-        //     state.picturePath = picturePath;
-        // },
+
     },
     extraReducers: (builder) => {
         builder

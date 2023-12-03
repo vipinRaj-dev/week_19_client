@@ -7,6 +7,7 @@ import UserProfilePage from './pages/UserProfilePage'
 import UserProfileEdit from "./pages/UserProfileEdit";
 import AdminLogin from './components/Admin/AdminLogin'
 import AdminPage from './components/Admin/AdminPage'
+import AdminUserEditPage from './pages/AdminUserEditPage'
 
 
 import store from "./redux/store/ConfigureStore";
@@ -15,7 +16,7 @@ function App() {
   return (
     <Provider store={store}>
       <div>
-        <BrowserRouter>
+        <BrowserRouter> 
           <Routes>
             <Route path="/" exact element={<Homepage />} />
             <Route path="/user/login" element={<Login />} />
@@ -24,6 +25,7 @@ function App() {
             <Route path="/user/profile/edit" element={<UserProfileEdit/>} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminPage />} />
+            <Route path="/admin/user/:userId" element={<AdminUserEditPage/>}/>
           </Routes>
         </BrowserRouter>
       </div>
