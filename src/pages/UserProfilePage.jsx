@@ -70,7 +70,7 @@ const UserProfilePage = () => {
                   <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                     <div class="relative">
                       <img
-                        src={`http://localhost:3001/${picturePath}`}
+                        src= {`http://localhost:3001/${picturePath}`}
                         alt=""
                         className=" w-36 mt-5 rounded-full"
                       />

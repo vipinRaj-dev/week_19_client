@@ -46,6 +46,7 @@ const Homepage = () => {
       <div className="h-screen">
         {/* Content for authenticated user */}
         {/* <h1>Welcome, {user.username}!</h1> */}
+        <div class="bg-cover bg-center"> <img className="w-screen h-screen" src="https://cdn.dribbble.com/userupload/11401301/file/original-c038c837389b92c4a5f910a8cb1b245e.png?resize=1504x1128" alt="" /> </div>
       </div>
       <Footer />
     </div>

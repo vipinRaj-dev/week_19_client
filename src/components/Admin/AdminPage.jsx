@@ -9,9 +9,16 @@ const AdminPage = () => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["Admin"]);
 
-  // if (!cookies.Admin) {
-  //   navigate("/admin/login");
-  // }
+  const handleLogout = () => {
+    removeCookie("Admin", { path: "/" });
+    navigate("/admin/login");
+  };
+
+  useEffect(() => {
+    if (!cookies.Admin) {
+      navigate("/admin/login");
+    }
+  }, []);
 
   const [search, setSearch] = useState("");
 
@@ -19,14 +26,28 @@ const AdminPage = () => {
 
   useEffect(() => {
     dispatch(AdminfetchData());
-  }, []);
+  }, [dispatch]);
 
   const userData = useSelector((state) => state.Admin);
-  // console.log(userData);
 
-  // const handleEdit = (userId) => {
-  //   navigate(`/admin/user/${userId}`);
-  // };
+  const handleDelete = async (userId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/admin/user/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch(AdminfetchData());
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user", error);
+    }
+  };
 
   return (
     <div>
@@ -36,6 +57,17 @@ const AdminPage = () => {
             <label for="table-search" className="sr-only">
               Search
             </label>
+            <button
+              onClick={handleLogout}
+              className="text-gray-200 bg-blue-800 p-2 px-7 rounded-lg"
+            >
+              Log Out
+            </button>
+            <Link to="/admin/createUser">
+              <button className="text-gray-400 bg-slate-700 p-2 px-8 hover:bg-blue-700 rounded-lg">
+                Add User
+              </button>
+            </Link>
             <div className="relative">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -75,9 +107,7 @@ const AdminPage = () => {
                 <th scope="col" className="px-6 py-3">
                   User
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Block
-                </th>
+
                 <th scope="col" className="px-6 py-3">
                   Delete
                 </th>
@@ -91,13 +121,13 @@ const AdminPage = () => {
                 .filter((user) =>
                   user.firstname.toLowerCase().includes(search.toLowerCase())
                 )
-                .map((user) => {
+                .map((user, index) => {
                   return (
                     <tr
                       key={user._id}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      <td className="w-4 p-4">1</td>
+                      <td className="w-4 p-4">{index + 1}</td>
                       <th
                         scope="row"
                         className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
@@ -116,14 +146,14 @@ const AdminPage = () => {
                           </div>
                         </div>
                       </th>
+
                       <td className="px-6 py-4">
-                        <button>Block</button>
+                        <button onClick={() => handleDelete(user._id)}>
+                          Delete
+                        </button>
                       </td>
                       <td className="px-6 py-4">
-                        <button>Delete</button>
-                      </td>
-                      <td className="px-6 py-4">
-                      <Link to={`/admin/user/${user._id}`}>Edit User</Link>
+                        <Link to={`/admin/user/${user._id}`}>Edit User</Link>
                       </td>
                     </tr>
                   );

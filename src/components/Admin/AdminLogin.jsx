@@ -9,11 +9,11 @@ const AdminLogin = () => {
   const navigate = useNavigate()
 
 
-  // useEffect(()=>{
-  //   if(cookies.Admin){
-  //     navigate('/admin/dashboard')
-  //   }
-  // },[])
+  useEffect(()=>{
+    if(cookies.Admin){
+      navigate('/admin/dashboard')
+    }
+  },[])
   // console.log(cookies.Admin);
   const [input, setInput] = useState({
     email: "",

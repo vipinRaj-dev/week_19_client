@@ -1,43 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { AdminfetchData } from "../redux/Reducers/AdminSlice";
+import React, { useState } from "react";
 import axios from "axios";
 
-const AdminUserEditPage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
-  const [status, setStatus] = useState("");
-  const [file, setFile] = useState(null);
-
-  const { userId } = useParams(); // Assuming you have the userId from the URL
-
-  useEffect(() => {
-    dispatch(AdminfetchData());
-  }, [dispatch]);
-
-  const adminData = useSelector((state) => state.Admin);
-  const user = adminData.find((user) => user._id === userId) || {};
-
-  const [updatedData, setUpdatedData] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-    picturePath: user.picturePath,
+const AdminCreateUser = () => {
+  const [userDetails, setUserDetails] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    picturePath: "",
   });
 
-  useEffect(() => {
-    setUpdatedData({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      picturePath: user.picturePath,
-    });
-  }, [user]);
+  const [file, setFile] = useState(null);
+  const [status, setStatus] = useState("");
+
+
+
 
   const validateImage = (file) => {
     // Define allowed file types
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp "];
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp , image/avif"];
 
     // Check if the file type is allowed
     if (!allowedTypes.includes(file.type)) {
@@ -49,14 +30,13 @@ const AdminUserEditPage = () => {
     return true;
   };
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setUpdatedData((prevData) => ({
+    setUserDetails((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  }
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -72,13 +52,14 @@ const AdminUserEditPage = () => {
 
     try {
       const formData = new FormData();
-      formData.append("firstname", updatedData.firstname);
-      formData.append("lastname", updatedData.lastname);
-      formData.append("email", updatedData.email);
+      formData.append("firstname", userDetails.firstname);
+      formData.append("lastname", userDetails.lastname);
+      formData.append("email", userDetails.email);
+      formData.append('password', userDetails.password)
       formData.append("picturePath", file);
 
       const response = await axios.post(
-        `http://localhost:3001/admin/profile/edit/${userId}`,
+        `http://localhost:3001/admin/createUser`,
         formData,
         {
           withCredentials: true,
@@ -92,17 +73,11 @@ const AdminUserEditPage = () => {
         console.log("Updating failed");
         setStatus("Updating failed");
       }
-      const delay = 2000;
-    // Use setTimeout to delay the redirect
-    setTimeout(() => {
-      navigate('/admin/dashboard');
-    }, delay);
     } catch (error) {
       console.error("Error updating profile", error);
       setStatus("Server error");
     }
   };
-
   return (
     <div>
       <div class="sm:mx-32 lg:mx-32 xl:mx-72">
@@ -112,8 +87,14 @@ const AdminUserEditPage = () => {
               <h1 class="text-3xl font-semibold py-7 px-5">Edit Profile</h1>
               <h1 class="font-thinner flex text-4xl pt-10 px-5">{status}</h1>
               <form onSubmit={handleSubmit} class="mx-5 my-5">
-                <label class="relative block p-3 border-2 border-black rounded" htmlFor="name">
-                  <span class="text-md font-semibold text-zinc-900" htmlFor="name">
+                <label
+                  class="relative block p-3 border-2 border-black rounded"
+                  htmlFor="name"
+                >
+                  <span
+                    class="text-md font-semibold text-zinc-900"
+                    htmlFor="name"
+                  >
                     First Name
                   </span>
                   <input
@@ -121,13 +102,19 @@ const AdminUserEditPage = () => {
                     id="firstname"
                     name="firstname"
                     type="text"
-                    value={updatedData.firstname}
+                    value={userDetails.firstname}
                     onChange={handleChange}
                     placeholder="Your name"
                   />
                 </label>
-                <label class="relative block p-3 border-2 mt-2 border-black rounded" htmlFor="name">
-                  <span class="text-md font-semibold text-zinc-900" htmlFor="name">
+                <label
+                  class="relative block p-3 border-2 mt-2 border-black rounded"
+                  htmlFor="name"
+                >
+                  <span
+                    class="text-md font-semibold text-zinc-900"
+                    htmlFor="name"
+                  >
                     Lastname
                   </span>
                   <input
@@ -135,21 +122,43 @@ const AdminUserEditPage = () => {
                     id="name"
                     name="lastname"
                     type="text"
-                    value={updatedData.lastname}
+                    value={userDetails.lastname}
                     onChange={handleChange}
                     placeholder="Your name"
                   />
                 </label>
+                <label
+                  class="relative block p-3 border-2 mt-2 border-black rounded"
+                  htmlFor="name"
+                >
+                  <span
+                    class="text-md font-semibold text-zinc-900"
+                    htmlFor="name"
+                  >
+                    Password
+                  </span>
+                  <input
+                    class="w-full bg-transparent p-0 text-sm text-gray-500 focus:outline-none"
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={userDetails.password}
+                    onChange={handleChange}
+                    placeholder="password"
+                  />
+                </label>
                 <div class="mt-5">
                   <label class="input-field inline-flex items-baseline border-2 border-black rounded p-4">
-                    <span class="flex-none text-dusty-blue-darker select-none leading-none">Email :</span>
+                    <span class="flex-none text-dusty-blue-darker select-none leading-none">
+                      Email :
+                    </span>
                     <div class="flex-1 leading-none">
                       <input
                         id="handle"
                         type="text"
                         class="w-full pl-1 bg-transparent focus:outline-none"
                         name="email"
-                        value={updatedData.email}
+                        value={userDetails.email}
                         onChange={handleChange}
                         placeholder="@email.com"
                       />
@@ -157,7 +166,11 @@ const AdminUserEditPage = () => {
                   </label>
                 </div>
 
-                <img src={`http://localhost:3001/${user.picturePath}`} alt="" className="w-36 mt-5 rounded-full" />
+                {/* <img
+                  src={`http://localhost:3001/${user.picturePath}`}
+                  alt=""
+                  className="w-36 mt-5 rounded-full"
+                /> */}
 
                 <label class="block pt-2">
                   <p>Choose profile photo</p>
@@ -190,4 +203,4 @@ const AdminUserEditPage = () => {
   );
 };
 
-export default AdminUserEditPage;
+export default AdminCreateUser;

@@ -36,7 +36,7 @@ const EditProfile = () => {
 
   const validateImage = (file) => {
     // Define allowed file types
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp , image/avif"];
 
     // Check if the file type is allowed
     if (!allowedTypes.includes(file.type)) {
@@ -69,7 +69,6 @@ const EditProfile = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
-    
   };
 
   const handleSubmit = async (e) => {
@@ -118,7 +117,7 @@ const EditProfile = () => {
             <div class="mt-4 px-4">
               <h1 class="text-3xl font-semibold py-7 px-5">Edit Profile</h1>
               <h1 class="font-thinner flex text-4xl pt-10 px-5">{status}</h1>
-              <form onSubmit={handleSubmit}  class="mx-5 my-5">
+              <form onSubmit={handleSubmit} class="mx-5 my-5">
                 <label
                   class="relative block p-3 border-2 border-black rounded"
                   htmlFor="name"
@@ -178,7 +177,11 @@ const EditProfile = () => {
                   </label>
                 </div>
 
-                <img src={`http://localhost:3001/${userData.picturePath}`}  alt="" className=" w-36 mt-5 rounded-full" />
+                <img
+                  src={`http://localhost:3001/${userData.picturePath}`}
+                  alt=""
+                  className=" w-36 mt-5 rounded-full"
+                />
 
                 <label class="block pt-2">
                   <p>Choose profile photo</p>
@@ -195,9 +198,14 @@ const EditProfile = () => {
                   />
                 </label>
 
-                <button className="" type="submit">
-                  Submit
-                </button>
+                <div className="flex justify-center mt-9">
+                  <button
+                    type="submit"
+                    className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  >
+                    Submit
+                  </button>
+                </div>
               </form>
             </div>
           </div>

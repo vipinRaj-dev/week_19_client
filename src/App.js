@@ -12,6 +12,7 @@ import AdminUserEditPage from './pages/AdminUserEditPage'
 
 import store from "./redux/store/ConfigureStore";
 import { Provider } from 'react-redux'
+import AdminCreateUser from "./pages/AdminCreateUser";
 function App() {
   return (
     <Provider store={store}>
@@ -26,6 +27,7 @@ function App() {
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminPage />} />
             <Route path="/admin/user/:userId" element={<AdminUserEditPage/>}/>
+            <Route path="/admin/createUser" element={<AdminCreateUser/>}/>
           </Routes>
         </BrowserRouter>
       </div>

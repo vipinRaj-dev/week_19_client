@@ -1,23 +1,27 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addDetails } from "../../redux/Reducers/UserSlice";
+
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const [cookies, setCookie, removeCookie] =  useCookies(['User'])
+
+  useEffect(()=>{
+    if(cookies.User){
+      navigate('/')
+    }
+  },[])
 
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState({
-    email: "",
-    password: "",
-  });
   const [mainError, setMainError] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -41,8 +45,6 @@ const Login = () => {
       setMainError("password does not match");
     }
     if (response.data.message === "loggedIn") {
-      // dispatch(addDetails(userDetails));
-
       setMainError("");
 
       navigate("/");
@@ -69,7 +71,7 @@ const Login = () => {
               <h1 class="mb-2 text-2xl">Instagram</h1>
               <span class="text-gray-300">Enter Login Details</span>
             </div>
-            {mainError}
+            <p className="text-center text-red-700 text-xl mb-2">{mainError}</p>
             <form onSubmit={handleSubmit}>
               <div class="mb-4 text-lg">
                 <input
