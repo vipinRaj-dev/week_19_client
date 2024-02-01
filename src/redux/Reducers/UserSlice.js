@@ -2,15 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
+
+
 // Async Thunk
 export const fetchData = createAsyncThunk('data/fetchData', async () => {
     try {
-        console.log('inside the createAsyncThunk');
+        // console.log('inside the createAsyncThunk');
         const response = await axios.get('http://localhost:3001/userdata', {
             withCredentials: true,
         });
         return response.data;
     } catch (error) {
+
         throw Error('Error fetching data');
     }
 });
@@ -38,7 +41,7 @@ const sliceUser = createSlice({
                 console.log('loading');
             })
             .addCase(fetchData.fulfilled, (state, action) => {
-                // console.log('succeeded', action.payload);
+                console.log('succeeded', action.payload);
                 const { _id, firstname, lastname, email, password, picturePath } = action.payload.user;
                 state.userId = _id;
                 state.firstname = firstname;
@@ -57,6 +60,7 @@ const sliceUser = createSlice({
 })
 
 
-export const { updateDetails, addDetails } = sliceUser.actions
+// export const { updateDetails, addDetails } = sliceUser.actions
+// console.log(sliceUser.reducer);
 export default sliceUser.reducer
 

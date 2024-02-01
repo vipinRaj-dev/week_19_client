@@ -11,7 +11,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     dispatch(fetchData());
-  }, [dispatch]);
+  }, []);
 
   const userData = useSelector((state) => state.User);
   const { firstname, lastname, email, picturePath } = userData;
@@ -96,6 +96,7 @@ const EditProfile = () => {
 
       if (response.status === 200) {
         console.log("Updating successful", response.data);
+        
         setStatus("Updated successfully");
       } else {
         console.log("Updating failed");
@@ -110,26 +111,26 @@ const EditProfile = () => {
     <div>
       <div
         // style="background-color : #f4f4f0"
-        class=" sm:mx-32 lg:mx-32 xl:mx-72 "
+        className=" sm:mx-32 lg:mx-32 xl:mx-72 "
       >
-        <div class="flex justify-between container mx-auto">
-          <div class="w-full">
-            <div class="mt-4 px-4">
-              <h1 class="text-3xl font-semibold py-7 px-5">Edit Profile</h1>
-              <h1 class="font-thinner flex text-4xl pt-10 px-5">{status}</h1>
-              <form onSubmit={handleSubmit} class="mx-5 my-5">
+        <div className="flex justify-between container mx-auto">
+          <div className="w-full">
+            <div className="mt-4 px-4">
+              <h1 className="text-3xl font-semibold py-7 px-5">Edit Profile</h1>
+              <h1 className="font-thinner flex text-4xl pt-10 px-5">{status}</h1>
+              <form onSubmit={handleSubmit} className="mx-5 my-5">
                 <label
-                  class="relative block p-3 border-2 border-black rounded"
+                  className="relative block p-3 border-2 border-black rounded"
                   htmlFor="name"
                 >
                   <span
-                    class="text-md font-semibold text-zinc-900"
+                    className="text-md font-semibold text-zinc-900"
                     htmlFor="name"
                   >
                     Firstname
                   </span>
                   <input
-                    class="w-full bg-transparent p-0 text-sm  text-gray-500 focus:outline-none"
+                    className="w-full bg-transparent p-0 text-sm  text-gray-500 focus:outline-none"
                     id="firstname"
                     name="firstname"
                     value={updatedData.firstname}
@@ -139,17 +140,17 @@ const EditProfile = () => {
                   />
                 </label>
                 <label
-                  class="relative block p-3 border-2 mt-2 border-black rounded"
+                  className="relative block p-3 border-2 mt-2 border-black rounded"
                   htmlFor="name"
                 >
                   <span
-                    class="text-md font-semibold text-zinc-900"
+                    className="text-md font-semibold text-zinc-900"
                     htmlFor="name"
                   >
                     Lastname
                   </span>
                   <input
-                    class="w-full bg-transparent p-0 text-sm  text-gray-500 focus:outline-none"
+                    className="w-full bg-transparent p-0 text-sm  text-gray-500 focus:outline-none"
                     id="name"
                     name="lastname"
                     value={updatedData.lastname}
@@ -158,18 +159,18 @@ const EditProfile = () => {
                     placeholder="Your name"
                   />
                 </label>
-                <div class="mt-5">
-                  <label class="input-field inline-flex items-baseline border-2 border-black rounded  p-4">
-                    <span class="flex-none text-dusty-blue-darker select-none leading-none">
+                <div className="mt-5">
+                  <label className="input-field inline-flex items-baseline border-2 border-black rounded  p-4">
+                    <span className="flex-none text-dusty-blue-darker select-none leading-none">
                       Email :
                     </span>
-                    <div class="flex-1 leading-none">
+                    <div className="flex-1 leading-none">
                       <input
                         id="handle"
                         type="text"
                         value={updatedData.email}
                         onChange={handleChange}
-                        class="w-full pl-1 bg-transparent focus:outline-none"
+                        className="w-full pl-1 bg-transparent focus:outline-none"
                         name="email"
                         placeholder="@email.com"
                       />
@@ -183,12 +184,12 @@ const EditProfile = () => {
                   className=" w-36 mt-5 rounded-full"
                 />
 
-                <label class="block pt-2">
+                <label className="block pt-2">
                   <p>Choose profile photo</p>
                   <input
                     type="file"
                     onChange={handleFileChange}
-                    class="w-full text-sm text-slate-500
+                    className="w-full text-sm text-slate-500
       file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
       file:text-sm file:font-semibold

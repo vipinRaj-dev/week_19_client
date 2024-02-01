@@ -29,7 +29,7 @@ const AdminPage = () => {
   }, [dispatch]);
 
   const userData = useSelector((state) => state.Admin);
-
+  
   const handleDelete = async (userId) => {
     try {
       const response = await axios.delete(
